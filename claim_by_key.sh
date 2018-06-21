@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# name to claim and active private key
+# name to claim and private key
 BP=
 PRIVATE_KEY=
 
