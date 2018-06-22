@@ -14,11 +14,11 @@ CLEOS="$NODEOS_BIN_DIR/cleos/cleos -u http://$NODE_HOST --wallet-url http://$WAL
 $CLEOS wallet open
 $CLEOS wallet unlock --password $WALLET_PW
 
-
 # step 2: wait and claim rewards
-last_claim_time=`$CLEOS get table eosio eosio producers -l 1000 | jq -r '.rows[] | select(.owner == "$BP") | .last_claim_time'`
+last_claim_time=`$CLEOS get table eosio eosio producers -l 1000 | jq -r '.rows[] | select(.owner == "'$BP'") | .last_claim_time'`
 now=`date +%s%N`
 diff=`expr $last_claim_time / 1000000 + 24 \* 3600 - $now / 1000000000 + 1`
+echo "wait for ${diff}s"
 sleep $diff
 $CLEOS system claimrewards $BP
 echo 'claimed at ' `date`

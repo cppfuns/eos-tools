@@ -16,18 +16,13 @@ rm -rf ~/eosio-wallet/*
 # step 2: create new wallet
 mkdir -p ~/eosio-wallet
 WALLET_RESULT=`$CLEOS wallet create`
-WALLET_PWD=${WALLET_RESULT:0-54:53}
-
-# step 3: import active private key
-$CLEOS wallet unlock <<EOF
-$WALLET_PWD
-EOF
 $CLEOS wallet import $PRIVATE_KEY
 
 # step 4: wait and claim rewards
-last_claim_time=`$CLEOS get table eosio eosio producers -l 1000 | jq -r '.rows[] | select(.owner == "$BP") | .last_claim_time'`
+last_claim_time=`$CLEOS get table eosio eosio producers -l 1000 | jq -r '.rows[] | select(.owner == "'$BP'") | .last_claim_time'`
 now=`date +%s%N`
 diff=`expr $last_claim_time / 1000000 + 24 \* 3600 - $now / 1000000000 + 1`
+echo "wait for ${diff}s"
 sleep $diff
 $CLEOS system claimrewards $BP
 echo 'claimed at ' `date`
