@@ -21,7 +21,11 @@ sleep $diff
 $CLEOS wallet open
 $CLEOS wallet unlock --password $WALLET_PW
 $CLEOS system claimrewards $BP
-echo 'claimed at ' `date`
+if [ $? -eq 0 ]; then
+    echo 'claimed at ' `date`
+else
+    echo 'failed to claim at ' `date`
+fi
 
 # step 3: clean
 $CLEOS wallet stop

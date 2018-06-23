@@ -28,7 +28,11 @@ $CLEOS wallet import $PRIVATE_KEY
 
 # step 3: claim rewards
 $CLEOS system claimrewards $BP -p $BP@$PERMISSION
-echo 'claimed at ' `date`
+if [ $? -eq 0 ]; then
+    echo 'claimed at ' `date`
+else
+    echo 'failed to claim at ' `date`
+fi
 
 # step 5: clean
 $CLEOS wallet stop
