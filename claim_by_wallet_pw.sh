@@ -1,8 +1,11 @@
 #!/bin/bash
 
-# name to claim and wallet password
+# bp account
 BP=eosbeijingbp
+# wallet password
 WALLET_PW=
+# private key permission
+PERMISSION=claimer
 
 # env
 NODEOS_BIN_DIR='/eos/build/programs'
@@ -20,7 +23,7 @@ sleep $diff
 # step 2: unlock wallet and claim
 $CLEOS wallet open
 $CLEOS wallet unlock --password $WALLET_PW
-$CLEOS system claimrewards $BP
+$CLEOS push action eosio claimrewards "{\"owner\":\"$BP\"}" -p $BP@$PERMISSION
 if [ $? -eq 0 ]; then
     echo 'claimed at ' `date`
 else
