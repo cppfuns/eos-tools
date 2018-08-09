@@ -8,9 +8,9 @@ PRIVATE_KEY=
 PERMISSION=claimer
 
 # env
-NODEOS_BIN_DIR='/eos/build/programs'
+NODEOS_BIN_DIR='/ebs/eos/build/programs'
 WALLET_HOST='127.0.0.1:3000'
-NODE_HOST='127.0.0.1:8080'
+NODE_HOST='127.0.0.1:8880'
 CLEOS="$NODEOS_BIN_DIR/cleos/cleos -u http://$NODE_HOST --wallet-url http://$WALLET_HOST"
 
 # step 1: wait until 24 hours from last claim
@@ -23,8 +23,8 @@ sleep $diff
 # step 2: create new wallet and import key
 mkdir -p ~/eosio-wallet
 rm -rf ~/eosio-wallet/*
-WALLET_RESULT=`$CLEOS wallet create`
-$CLEOS wallet import $PRIVATE_KEY
+WALLET_RESULT=`$CLEOS wallet create -n claim`
+$CLEOS wallet import -n claim --private-key $PRIVATE_KEY
 
 # step 3: claim rewards
 $CLEOS push action eosio claimrewards "{\"owner\":\"$BP\"}" -p $BP@$PERMISSION
